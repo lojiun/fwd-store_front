@@ -1,0 +1,42 @@
+***** Project for Storefront Backend *****
+# Installer's Manual
+1- Install yarn and npm i to get all required packages.
+2- Update the environment file to include the POSTGRES HOST, POSTGRES USER, POSTGRES DB, POSTGRES DB TEST, and POSTGRES PASSWORD attributes of your local database server.
+3- Add the same properties as above to the database.json file.
+4- Run the yarn db-migrate-up script to construct each of the required tables.
+5- To execute each test script, run yarn test.
+6- Start the server by running  watch and start.
+
+# Ports
+Server runs on port 5000
+Database on port 5432
+
+
+***** env variables *****
+POSTGRES_HOST='localhost'
+POSTGRES_USER='postgres'
+POSTGRES_DB_DEV= 'storefront_backend_database_dev'
+POSTGRES_DB_TEST='storefront_backend_database_test'
+POSTGRES_PASSWORD="12345"
+ENV='dev'
+PEPPER='strong-pepper'
+SALT_ROUNDS=10
+JWT_TOKEN_SECRET=lojiun2232lolo12!@
+
+
+*****  scripts *****
+  "scripts": {
+    "test": "yarn db-migrate-down-test && yarn db-migrate-up-test && jasmine && yarn db-migrate-down-test",
+    "start": "nodemon src/server.ts",
+    "build": "npx tsc ",
+    "jasmine": "jasmine",
+    "watch": "tsc -w",
+    "db-migrate-up": "db-migrate up",
+    "db-migrate-down": "db-migrate down --count 4",
+    "db-migrate-down-test": "db-migrate --env test down --count 4",
+    "db-migrate-up-test": "db-migrate --env test up"
+
+  }
+
+
+

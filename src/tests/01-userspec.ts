@@ -27,6 +27,7 @@ describe("User Model ", () => {
     it('should have a authenticate method', () => {
         expect(store.authenticateUser).toBeDefined();
     });
+  
 
     it('create method should add an user', async () => {
 
@@ -39,6 +40,16 @@ describe("User Model ", () => {
         const users= await store.index();
         const usersLength= users.length;
         expect(usersLength).toEqual(1);
+    });
+    it('update method should update the  user', async () => {
+        const updatedUser: user = {
+            id:1,
+            name:"udacity",
+            password_Hashed:"$2b$10$AZReYZIeP3DHPxp9o1dZVuPOK1NSnm5lHno8O16GbW1FYxiY7PvlS"
+        }
+        const result = await store.Update(1,updatedUser);
+        const updated= await store.index()
+        expect(updated[0].name).toEqual(updatedUser.name);
     });
   
 });

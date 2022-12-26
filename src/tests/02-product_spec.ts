@@ -49,7 +49,15 @@ describe("Product Model", () => {
         const productLength= products.length;
         expect(productLength).toEqual(1);
     });
-
+    it('update method should update the  product', async () => {
+        const updatedProduct: Product = {
+            name:'Product',
+            price:12000
+         }
+        const result = await store.Update(1,updatedProduct);
+        const updated= await store.index()
+        expect(updated[0].name).toEqual(updatedProduct.name);
+    });
     it('delete method should remove the product', async () => {
         store.Delete(1);
         const result = await store.index()

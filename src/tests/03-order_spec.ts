@@ -50,7 +50,22 @@ const orderStore = new OrderStore();
         expect(ordersLength).toEqual(1);
     });
 
-
+    it('show method should return the correct order', async () => {
+        const result = await orderStore.show(1);
+        const orders= await orderStore.index();
+        const ordersLength= orders.length;
+        expect(ordersLength).toEqual(1);
+    });
+    it('update method should update the  order', async () => {
+        const updatedOrder: Order = {
+            status:'complete',
+            user_id:1,
+            orderId:1
+         }
+        const result = await orderStore.Update(1,updatedOrder);
+        const updated= await orderStore.index()
+        expect(updated[0].status).toEqual(updatedOrder.status);
+    });
     it('delete method should remove the order', async () => {
         orderStore.Delete(1);
         const result = await orderStore.index()

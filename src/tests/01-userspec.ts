@@ -1,6 +1,8 @@
 import {User,user} from "../models/user";
 
-
+import supertest from "supertest";
+import { app } from "../server";
+const request= supertest(app);
 const store= new User();
 describe("User Model ", () => {
 
@@ -28,7 +30,10 @@ describe("User Model ", () => {
         expect(store.authenticateUser).toBeDefined();
     });
   
-
+    it('should  authenticate user', async () => {
+        const response = await request.get("/api/authenticate");
+        expect(response.status).toEqual(200)
+    });
     it('create method should add an user', async () => {
 
         const createdUser: user = {

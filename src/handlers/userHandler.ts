@@ -33,7 +33,7 @@ const authenticate = async (req: Request, res: Response) => {
     try {
         const u = await storeUser.authenticateUser(user.name, user.password_Hashed)
         var token = jwt.sign({ user: u }, JWT_TOKEN_SECRET as string);
-        res.json(token)
+        res.status(200).json(token)
     } catch (error) {
         res.status(401)
         res.json({ error })

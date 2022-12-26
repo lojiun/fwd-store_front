@@ -1,9 +1,11 @@
 import { OrderStore,Order } from "../models/orders";
 import express, { Request, Response } from 'express'
+import { app } from "../server";
 import dotenv from 'dotenv';
+import supertest from "supertest";
 dotenv.config()
 const orderStore = new OrderStore();
-
+const request= supertest(app);
 
 
   describe("Order Model", () => {
@@ -51,10 +53,9 @@ const orderStore = new OrderStore();
     });
 
     it('show method should return the correct order', async () => {
-        const result = await orderStore.show(1);
-        const orders= await orderStore.index();
-        const ordersLength= orders.length;
-        expect(ordersLength).toEqual(1);
+        const response = await request.get("/order/1");
+          expect(response.status).toEqual(200)
+    
     });
     it('update method should update the  order', async () => {
         const updatedOrder: Order = {

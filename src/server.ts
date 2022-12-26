@@ -10,7 +10,7 @@ const corOptions={
 }
 
 require('dotenv').config();
-const app: express.Application = express();
+ export const app: express.Application = express();
 
 app.use(cors(corOptions))
 app.use(bodyParser.json());

@@ -1,5 +1,8 @@
 import { ProductStore,Product } from "../models/products";
 const store = new ProductStore();
+import supertest from "supertest";
+import { app } from "../server";
+const request= supertest(app);
 
 describe("Product Model", () => {
     it('should have index method ', () => {
@@ -44,10 +47,8 @@ describe("Product Model", () => {
     });
 
     it('show method should return the correct product', async () => {
-        const result = await store.show(1);
-        const products= await store.index();
-        const productLength= products.length;
-        expect(productLength).toEqual(1);
+        const response = await request.get("/product/1");
+          expect(response.status).toEqual(200)
     });
     it('update method should update the  product', async () => {
         const updatedProduct: Product = {

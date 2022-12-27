@@ -6,7 +6,7 @@ import supertest from "supertest";
 dotenv.config()
 const orderStore = new OrderStore();
 const request= supertest(app);
-
+import { token } from "./01-userspec";
 
   describe("Order Model", () => {
     it('convert to test ', () => {
@@ -20,12 +20,7 @@ const request= supertest(app);
 
 
     });
-    it('should return list of Orders ', async () => {
-        const orders= await orderStore.index();
-        expect(orders).toEqual([]);
-
-
-    });
+  
      it('should  orderStore have a create method', () => {
         expect(orderStore.Create).toBeDefined();
     });
@@ -33,27 +28,29 @@ const request= supertest(app);
     it('should orderStore have a update method', () => {
         expect(orderStore.Update).toBeDefined();
     });
-
+  
     it('should  orderStore have a delete method', () => {
         expect(orderStore.Delete).toBeDefined();
     });
-
+    it('should return list of Orders ', async () => {
+       
+        console.log('lojiun'+token);
+         const response = await request.get("/api/orders").set('Authorization', `Bearer ${token}`);
+         expect(response.status).toEqual(200)
+     });
     it('create method should add an order', async () => {
-        console.log("in orderspec method")
+
         const createdOrder: Order = {
             status:'active',
             user_id:1,
             orderId:1
         }
-        const result = await orderStore.Create(createdOrder);
-        console.log(result);
-        const orders= await orderStore.index();
-        const ordersLength= orders.length;
-        expect(ordersLength).toEqual(1);
+        const response = await request.post("/createOrder").send(createdOrder).set('Authorization', `Bearer ${token}`);
+        expect(response.status).toEqual(200)
     });
 
     it('show method should return the correct order', async () => {
-        const response = await request.get("/order/1");
+        const response = await request.get("/order/1").set('Authorization', `Bearer ${token}`);
           expect(response.status).toEqual(200)
     
     });
@@ -63,15 +60,12 @@ const request= supertest(app);
             user_id:1,
             orderId:1
          }
-        const result = await orderStore.Update(1,updatedOrder);
-        const updated= await orderStore.index()
-        expect(updated[0].status).toEqual(updatedOrder.status);
+         const response = await request.put("/updateOrder").send(updatedOrder).set('Authorization', `Bearer ${token}`);
+         expect(response.status).toEqual(200)
     });
     it('delete method should remove the order', async () => {
-        orderStore.Delete(1);
-        const result = await orderStore.index()
-
-        expect(result.length).toEqual(0);
+        const response = await request.delete("/deleteOrder/1").set('Authorization', `Bearer ${token}`);
+        expect(response.status).toEqual(200)
     });
 
 

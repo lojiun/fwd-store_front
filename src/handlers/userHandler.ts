@@ -43,7 +43,7 @@ const authenticate = async (req: Request, res: Response) => {
 const index = async (req: Request, res: Response) => {
     try {
         const users =  await storeUser.index();
-        res.json(users);
+        res.status(200).json(users);
 
     } catch (error) {
         res.status(400);
@@ -60,7 +60,7 @@ const update = async (req: Request, res: Response) => {
             password_Hashed: req.body.password_Hashed,
         }
         const Updated = await storeUser.Update(req.body.id,updatedUser);
-        res.json(Updated);
+        res.status(200).json(Updated);
 
     } catch (error) {
         res.status(400);

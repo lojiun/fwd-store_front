@@ -8,7 +8,7 @@ dotenv.config()
 const index = async (req: Request, res: Response) => {
     try {
         const orders =  await store.index();
-        res.json(orders);
+        res.status(200).json(orders);
 
     } catch (error) {
         res.status(400);
@@ -40,7 +40,7 @@ const destroy = async (req: Request, res: Response) => {
     try {
     
         const Deleted =  await store.Delete(req.params.orderId as unknown as number);
-        res.json(Deleted);
+        res.status(200).json(Deleted);
     } catch (error) {
         res.status(400);
         res.json(error);
